@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 from paddle import Paddle
 pygame.init()
 BLACK = (0,0,0)
@@ -31,12 +32,24 @@ while carryOn:
             if event.key == pygame.K_x:
                 carryOn = False
 
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        paddleA.moveUp(5)
+    if keys[pygame.K_s]:
+        paddleA.moveDown(5)
+    if keys[pygame.K_UP]:
+        paddleA.moveUp(5)
+    if keys[pygame.K_DOWN]:
+        paddleA.moveDown(5)
+
     all_sprites_list.update()
 
 
     screen.fill(BLACK)
     pygame.draw.line(screen, WHITE, [349,0], [349,500], 5)
     all_sprites_list.draw(screen)
+    #print(pygame.PixelArray(screen)) ##this can be used for screen capturing
     pygame.display.flip()
     clock.tick(60)
 
