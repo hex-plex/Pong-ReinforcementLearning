@@ -151,7 +151,7 @@ pyrsistent==0.16.0
 PyScreeze==0.1.26
 pyserial==3.4
 python-dateutil==2.8.0
-python-gnupg==0.4.3
+python-gnupg==0.4.4
 python-qt-binding==0.4.0
 python-snappy==0.5.3
 python-vlc==3.0.7110
