@@ -54,7 +54,7 @@ dynamic-reconfigure==1.6.3
 empy==3.3.2
 entrypoints==0.3
 enum34==1.1.6
-Flask==0.10.1
+Flask==1.0
 funcsigs==1.0.2
 functools32==3.2.3.post2
 future==0.16.0
