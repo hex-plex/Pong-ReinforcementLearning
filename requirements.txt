@@ -244,7 +244,7 @@ smclib==1.8.3
 soupsieve==1.9.5
 subprocess32==3.5.4
 tensorboard==1.14.0
-tensorflow==1.14.0
+tensorflow==1.15.2
 tensorflow-estimator==1.14.0
 termcolor==1.1.0
 texttable==1.6.2
