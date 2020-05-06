@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import collide_mask
 from paddle import Paddle
 from ball import Ball
+pygame.mixer.pre_init(44100, -16, 1, 128)
 pygame.init()
 BLACK = (0,0,0)
 WHITE = (255,255,255)
