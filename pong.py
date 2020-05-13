@@ -2,6 +2,8 @@ import pygame
 from pygame.sprite import collide_mask
 from paddle import Paddle
 from ball import Ball
+import cv2
+import numpy as np
 pygame.mixer.pre_init(44100, -16, 1, 128)
 pygame.init()
 BLACK = (0,0,0)
@@ -100,14 +102,25 @@ while carryOn:
     pygame.draw.line(screen, WHITE, [349,0], [349,500], 5)
     all_sprites_list.draw(screen)
 
+    ###Feed for the net###
+    feed=np.array(pygame.PixelArray(screen))
+    feed=feed>20
+    feed=feed*200
+    ######################
+
     font = pygame.font.Font(None, 74)
     text = font.render(str(scoreA), 1 , WHITE)
     screen.blit(text , (250,10))
     text = font.render(str(scoreB), 1 ,WHITE)
     screen.blit(text, (420,10))
 
-    #print(pygame.PixelArray(screen)) ##this can be used for screen capturing
+
     pygame.display.flip()
+    cv2.imshow("Hello",np.array(feed,dtype=np.uint8))
+    print(np.array(feed,dtype=np.uint8).shape)
+    print(np.array(feed,dtype=np.uint8).sum())
+    ##this can be used for screen capturing
+    #cv2.waitKey(1)
     clock.tick(60)
 
 pygame.quit()
