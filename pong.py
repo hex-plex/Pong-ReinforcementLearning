@@ -104,7 +104,9 @@ while carryOn:
 
     ###Feed for the net###
     feed=np.array(pygame.PixelArray(screen),dtype=np.uint8)
-    feed=feed.reshape([700,500,1])
+    feed=feed.T
+    feed=feed.reshape([500,700,1])
+
     cv2.imshow('hello',feed)
     ######################
 
