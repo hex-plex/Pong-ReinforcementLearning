@@ -103,9 +103,9 @@ while carryOn:
     all_sprites_list.draw(screen)
 
     ###Feed for the net###
-    feed=np.array(pygame.PixelArray(screen))
-    feed=feed>20
-    feed=feed*200
+    feed=np.array(pygame.PixelArray(screen),dtype=np.uint8)
+    feed=feed.reshape([700,500,1])
+    cv2.imshow('hello',feed)
     ######################
 
     font = pygame.font.Font(None, 74)
@@ -116,11 +116,11 @@ while carryOn:
 
 
     pygame.display.flip()
-    cv2.imshow("Hello",np.array(feed,dtype=np.uint8))
-    print(np.array(feed,dtype=np.uint8).shape)
-    print(np.array(feed,dtype=np.uint8).sum())
+    #cv2.imshow("Hello",np.array(feed,dtype=np.uint8))
+    #print(feed.shape)
+    #print(np.array(feed,dtype=np.uint8).sum())
     ##this can be used for screen capturing
-    #cv2.waitKey(1)
+    cv2.waitKey(1)
     clock.tick(60)
 
 pygame.quit()
