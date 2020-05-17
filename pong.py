@@ -74,11 +74,11 @@ while carryOn:
 
     all_sprites_list.update()
 
-    if ball.rect.x>=690 :
+    if ball.rect.x>=685 :
         effect.play()
         scoreA+=1
         ball.velocity[0] *= -1
-    if ball.rect.x<=0:
+    if ball.rect.x<=5:
         effect.play()
         scoreB+=1
         ball.velocity[0] *= -1
