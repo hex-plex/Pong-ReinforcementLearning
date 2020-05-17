@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import collide_mask
 from paddle import Paddle
 from ball import Ball
+from random import randint
 import cv2
 import numpy as np
 pygame.mixer.pre_init(44100, -16, 1, 128)
@@ -45,6 +46,9 @@ carryOn = True
 
 clock = pygame.time.Clock()
 
+flag=0
+no=0
+
 scoreA = 0
 scoreB = 0
 effect = pygame.mixer.Sound('Sounds/button-16-1.wav')
@@ -74,15 +78,22 @@ while carryOn:
 
     all_sprites_list.update()
 
-    if ball.rect.x>=685 :
+
+    if ball.rect.x>=690 and flag==0:
         effect.play()
         scoreA+=1
-        ball.velocity[0] *= -1
-    if ball.rect.x<=5:
+        ball.velocity[0] = -abs(ball.velocity[0])
+        if abs(ball.velocity[0])<1:
+            ball.velocity[0] = randint(-5,-1)
+        flag=1
+
+    if ball.rect.x<=0 and flag==0:
         effect.play()
         scoreB+=1
-        ball.velocity[0] *= -1
-
+        ball.velocity[0] = abs(ball.velocity[0])
+        if abs(ball.velocity[0])<1:
+            ball.velocity[0] = randint(1,5)
+        flag=1
     if ball.rect.y>490:
         effect.play()
         ball.velocity[1] *= -1
@@ -92,10 +103,14 @@ while carryOn:
         ball.velocity[1] *= -1
 
 
-    if collide_mask(ball,paddleA) or collide_mask(ball, paddleB):
+    if ((collide_mask(ball,paddleA) or collide_mask(ball, paddleB)) and flag==0):
         effect.play()
         ball.bounce()
-
+        flag=1
+        #print(no,"ITS happeneing now")
+        no+=1
+    if ball.rect.x>11 and ball.rect.x<679:
+        flag=0
 
 
     screen.fill(BLACK)

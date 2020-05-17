@@ -16,18 +16,12 @@ class Ball(pygame.sprite.Sprite):
 
         self.velocity = [randint(4,8),randint(-8,8)]
         self.rect = self.image.get_rect()
+
     def update(self):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
     def bounce(self):
-
-        if abs(self.velocity[0])<1:
-            if self.velocity[0]>0:
-                self.velocity[0]=randint(-8,0)
-            else:
-                self.velocity[0]=randint(0,8)
-        else:
-            self.velocity[0] *= -1
+        self.velocity[0] *= -1 
         self.velocity[1] = randint(-8,8)
     def posi(self):
         return self.rect

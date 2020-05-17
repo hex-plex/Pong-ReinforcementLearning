@@ -11,7 +11,7 @@ def server():
   client_socket, adress = s.accept()
   print("Connection from: " + str(adress))
   while True:
-    data = s.recv(33852).decode('utf-8')
+    data = s.recv(adress[1]).decode('utf-8')
     if not data:
       break
     print('From online user: ' + data)
