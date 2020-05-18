@@ -47,6 +47,7 @@ carryOn = True
 clock = pygame.time.Clock()
 
 flag=0
+flagrem=0
 no=0
 
 scoreA = 0
@@ -94,13 +95,15 @@ while carryOn:
         if abs(ball.velocity[0])<1:
             ball.velocity[0] = randint(1,5)
         flag=1
-    if ball.rect.y>490:
+    if ball.rect.y>=490 and flagrem==0:
         effect.play()
         ball.velocity[1] *= -1
+        flagrem=1
 
-    if ball.rect.y<0:
+    if ball.rect.y<=0 and flagrem==0:
         effect.play()
         ball.velocity[1] *= -1
+        flagrem=1
 
 
     if ((collide_mask(ball,paddleA) or collide_mask(ball, paddleB)) and flag==0):
@@ -112,6 +115,8 @@ while carryOn:
     if ball.rect.x>11 and ball.rect.x<679:
         flag=0
 
+    if ball.rect.y>10 and ball.rect.y<480:
+        flagrem=0
 
     screen.fill(BLACK)
     pygame.draw.line(screen, WHITE, [349,0], [349,500], 5)
