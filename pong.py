@@ -144,7 +144,7 @@ class Pong:
     ##this can be used for screen capturing
             cv2.waitKey(1)
             self.clock.tick(60)
-
+    ## Add the controls and outputs
     def close(self):pygame.quit()
 if __name__=="__main__":
     print("ENTER DIFFICULTY")
