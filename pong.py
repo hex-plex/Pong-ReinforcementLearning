@@ -129,7 +129,7 @@ class Pong:
                 self.paddleA.moveDown(5)
                 inputs=True
 
-            if conti==0 and not inputs:
+            if self.server and self.conti==0 and not inputs:
                 while len(self.buffer)!=0:
                     if (time.time()-self.buffer[0][1])<=0.017: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
                         if self.buffer[0][0]=='1':
