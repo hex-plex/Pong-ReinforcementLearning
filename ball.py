@@ -22,7 +22,9 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x = min(max(self.rect.x+self.velocity[0],0),self.twidth-self.width)
+        ## Clipping solves a lot of glitches should have done this earlier
         self.rect.y = min(max(self.rect.y+self.velocity[1],0),self.theight-self.height)
+        ## Clipping solves a lot of glitches should have done this earlier
     def bounce(self):
         self.velocity[0] *= -1
         self.velocity[1] = randint(-8,8)
