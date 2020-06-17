@@ -5,7 +5,7 @@ class PolicyGradient:
 	def sigmoid(self,x):
 		return 1.0/(1.0+np.exp(-x))
 	def preprocess(self,img):
-		pass
+		return img.reshape(-1)
 
 	def semi_returns(self,rewards):
 		discounted_r = np.zeros_like(rewards)
