@@ -3,6 +3,7 @@ import pickle
 import socket
 from io import BytesIO
 import _thread
+import time
 class PolicyGradient:
 	def sigmoid(self,x):
 		return 1.0/(1.0+np.exp(-x))
@@ -39,8 +40,8 @@ class PolicyGradient:
 			self.model['W1']=np.random.randn(hiddenUnits,80*80)/80 ## Needs changes
 			self.model['W2']=np.random.randn(hiddenUnits)/np.sqrt(hiddenUnits)
 
-		self.grad_buff = {k: np.zeros(v.shape) for k,v in model.iteritems()}
-		self.rmsprop_cache = {k : np.zeros(v.shape) for k,v in model.iteritems()}
+		self.grad_buff = {k: np.zeros(v.shape) for k,v in self.model.items()}
+		self.rmsprop_cache = {k : np.zeros(v.shape) for k,v in self.model.items()}
 		self.learningRate=learningRate
 		self.batch_size = batch_size
 		self.gamma = gamma
@@ -78,7 +79,7 @@ class PolicyGradient:
 	def get_frame(self):
 		if self.handshake:
 			self.socket.send('r'.encode('utf-8'))
-			img_buffer=''
+			img_buffer=b''
 			while True:
 				inp_buffer=self.socket.recv(1024)
 				if not inp_buffer: break
@@ -95,14 +96,15 @@ class PolicyGradient:
 			raise Exception('Connect to the environment first')
 	def send_action(self,action):
 		if self.handshake:
-			self.socket.send(action.encode('utf-8')) ## Add a confirmation
+			self.socket.send(('a-'+action).encode('utf-8')) ## Add a confirmation
 		else:
 			raise Exception('Connect to the environment first')
 	def start(self,n=10000000000000000):
 		_thread.start_new_thread(self.connect_env, (self.host,))
 		_thread.start_new_thread(self.propriety_control, (True,))
 		while not self.handshake:
-			sleep.time(0.05)
+			time.sleep(0.05)
+		self.send_action('1') ##For initiating
 		observation = self.get_frame()
 		returns = None
 		prev_x = None

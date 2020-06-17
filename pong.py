@@ -8,7 +8,7 @@ import numpy as np
 import time
 import socket
 import _thread
-from io import ByteIO
+from io import BytesIO
 class Pong:
     pygame.mixer.pre_init(44100, -16, 1, 128)
     pygame.init()
@@ -65,11 +65,12 @@ class Pong:
         except:
             self.server_socket.bind(('',self.port))
             print("couldnt start at specified address.\nServer started at localhost on "+str(self.port))
-        s.listen(1)
+        self.server_socket.listen(1)
         client_socket, address = self.server_socket.accept()
         print("Connection from: "+str(address))
         while True:
             data = client_socket.recv(1024).decode('utf-8')
+            print(data)
             if not data:
                 continue
             if data[0]=='a':  ## a stands for action input
@@ -80,13 +81,12 @@ class Pong:
             elif data[0]=='r': ## r stands for image request
                 while not self.new_feed:
                     time.sleep(0.00005)
-                else:
-                    temp=cv2.resize(self.feed,(60,84))
-                    f = ByteIO()
-                    np.savez_compressed(f,frame=temp)
-                    f.seek(0)
-                    out = f.read()
-                    client_socket.sendall(out)
+                temp=cv2.resize(self.feed,(60,84))
+                f = BytesIO()
+                np.savez_compressed(f,frame=temp)
+                f.seek(0)
+                out = f.read()
+                client_socket.sendall(out)
             elif data[0]=='s': ## s stands for reward (score)
                 client_socket.send(self.reward)
         client_socket.close()
@@ -95,8 +95,8 @@ class Pong:
 
     def start(self):
         self.clock = pygame.time.Clock()
-        if server:
-            _thread.start_new_thread(self.start_server,(self,))
+        if self.server:
+            _thread.start_new_thread(self.start_server,())
         self.buffer=[]
         self.flag=0
         self.flagrem=0
@@ -114,7 +114,7 @@ class Pong:
                     if event.key == pygame.K_x:
                         self.close()
 
-            self.new_feed=False
+
             inputs=False
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
@@ -134,6 +134,7 @@ class Pong:
             ## It can be changed to if after training but not while training
             while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
+                    print("Atleast going here")
                     if (time.time()-self.buffer[0][1])<=0.017: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
                         if self.buffer[0][0]=='1':
                             self.paddleA.moveUp(5)
@@ -142,12 +143,13 @@ class Pong:
                             self.paddleA.moveDown(5)
                             inputs=True
                         self.buffer=[]
-                    del self.buffer[0]
+                    else:
+                        del self.buffer[0]
             if self.conti==1:
                 self.paddleA.AI(self.ball.posi())
 
             self.paddleB.AI(self.ball.posi())
-
+            self.new_feed=False
             self.all_sprites_list.update()
 
 
