@@ -106,6 +106,7 @@ class Pong:
         self.scoreB = 0
         effect = pygame.mixer.Sound('Sounds/button-16-1.wav')
         while self.carryOn:
+            self.reward=0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.carryOn = False
@@ -129,13 +130,15 @@ class Pong:
                 self.paddleA.moveDown(5)
                 inputs=True
 
-            if self.server and self.conti==0 and not inputs:
+            while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     if (time.time()-self.buffer[0][1])<=0.017: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
                         if self.buffer[0][0]=='1':
                             self.paddleA.moveUp(5)
+                            inputs=True
                         else:
                             self.paddleA.moveDown(5)
+                            inputs=True
                         self.buffer=[]
                     del self.buffer[0]
             if self.conti==1:
@@ -149,6 +152,7 @@ class Pong:
             if self.ball.rect.x>=690 and self.flag==0:
                 effect.play()
                 self.scoreA+=1
+                self.reward+=1
                 self.ball.velocity[0] = -abs(self.ball.velocity[0])
                 if abs(self.ball.velocity[0])<1:
                     self.ball.velocity[0] = randint(-5,-1)
@@ -157,6 +161,7 @@ class Pong:
             if self.ball.rect.x<=0 and self.flag==0:
                 effect.play()
                 self.scoreB+=1
+                self.reward-=1
                 self.ball.velocity[0] = abs(self.ball.velocity[0])
                 if abs(self.ball.velocity[0])<1:
                     self.ball.velocity[0] = randint(1,5)
