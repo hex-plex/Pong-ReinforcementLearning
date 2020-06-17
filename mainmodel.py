@@ -98,7 +98,7 @@ class PolicyGradient:
 			self.socket.send(action.encode('utf-8')) ## Add a confirmation
 		else:
 			raise Exception('Connect to the environment first')
-	def start(self):
+	def start(self,n=10000000000000000):
 		_thread.start_new_thread(self.connect_env, (self.host,))
 		_thread.start_new_thread(self.propriety_control, (True,))
 		while not self.handshake:
@@ -110,6 +110,10 @@ class PolicyGradient:
 		eps_no=0
 		reward_sum=0
 		while self.ongoingFlag:
+			if  eps_no >n:
+				pickle.dump(self.model, open('ending_'+str(n)+'.p', 'wb'))
+				print("Stopping the training as "+str(n)+" episodes are complete")
+				break
 			if render:
 				cv2.imshow("OUTPUT DONT Use This!!!",observation)
 				cv2.waitKey(5)
@@ -157,3 +161,7 @@ class PolicyGradient:
 				prev_x=None
 				if reward !=0:
 					print('episode '+str(eps_no)+' game finished reward '+str(reward)+ ('' if reward==-1 else '!!!!!!'))
+
+if __name__ == "__main__":
+	model = PolicyGradient()
+	model.start()

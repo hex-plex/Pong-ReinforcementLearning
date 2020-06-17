@@ -237,7 +237,5 @@ if __name__=="__main__":
     print("MODERATE --> 2")
     print("HARD     --> 3")
     levelodiff=input()
-    game = Pong(levelodiff,server=False)##,debug=True)
+    game = Pong(levelodiff,server=True)##,debug=True)
     game.start()
-    time.sleep(30)
-    game.close()
