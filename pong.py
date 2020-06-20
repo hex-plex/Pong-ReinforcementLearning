@@ -70,7 +70,7 @@ class Pong:
         print("Connection from: "+str(address))
         while True:
             data = client_socket.recv(1024).decode('utf-8')
-            print(data)
+            if self.debug: print('network-input:',data)
             if not data:
                 continue
             if data[0]=='a':  ## a stands for action input
@@ -83,15 +83,15 @@ class Pong:
             elif data[0]=='r': ## r stands for image request
                 while not self.new_feed:
                     time.sleep(0.00005)
-                temp=cv2.resize(self.feed,(60,84))
+                temp=cv2.resize(self.feed,(50,70))
                 f = BytesIO()
                 np.savez_compressed(f,frame=temp)
                 f.seek(0)
                 out = f.read()
                 client_socket.send(out)
-                print('done')
+                if self.debug:print('image sent')
             elif data[0]=='s': ## s stands for reward (score)
-                client_socket.send(self.reward)
+                client_socket.send(str(self.reward).encode('utf-8'))
         client_socket.close()
         self.server_socket.close()
         return 0
@@ -137,8 +137,8 @@ class Pong:
             ## It can be changed to if after training but not while training
             while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
-                    print("Atleast going here")
-                    if (time.time()-self.buffer[0][1])<=1: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
+                    if self.debug: print("Search started for input")
+                    if (time.time()-self.buffer[0][1])<=1.5: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
                         if self.buffer[0][0]=='1':
                             self.paddleA.moveUp(5)
                             inputs=True

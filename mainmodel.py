@@ -6,7 +6,7 @@ import _thread
 import time
 class PolicyGradient:
 	def sigmoid(self,x):
-		return 1.0/(1.0+np.exp(-x))
+		return 1.0 / (1.0+np.exp(-x))
 	def preprocess(self,img):
 		return img.reshape(-1)
 
@@ -21,7 +21,7 @@ class PolicyGradient:
 		return discounted_r
 	def fc(self,x):
 		h=np.dot(self.model['W1'],x)
-		h = np.dot(h,np.array(h>0,dtyp=np.uint8))
+		h[h<0]=0
 		logp = np.dot(self.model['W2'],h)
 		p = self.sigmoid(logp)
 		return p,h
@@ -37,7 +37,7 @@ class PolicyGradient:
 			self.model = pickle.load(open("checkpoint.p",'rb'))
 		else:
 			self.model={}
-			self.model['W1']=np.random.randn(hiddenUnits,80*80)/80 ## Needs changes
+			self.model['W1']=np.random.randn(hiddenUnits,70*50)/60 ## Needs changes
 			self.model['W2']=np.random.randn(hiddenUnits)/np.sqrt(hiddenUnits)
 
 		self.grad_buff = {k: np.zeros(v.shape) for k,v in self.model.items()}
@@ -79,12 +79,12 @@ class PolicyGradient:
 	def get_frame(self):
 		if self.handshake:
 			self.socket.send('r'.encode('utf-8'))
-			img_buffer=b''
-			while True:
-				inp_buffer=self.socket.recv(1024)
-				if not inp_buffer: break
-				img_buffer+=inp_buffer
-			print("Image Fetched in network")
+			#while True:
+				#inp_buffer=self.socket.recv(1024)
+				#if not inp_buffer: break
+				#img_buffer+=inp_buffer
+			img_buffer = self.socket.recv(4096)  ## THis much of buffer is sufficient for the image used here
+			#print("Image Fetched in network")
 			return np.load(BytesIO(img_buffer))['frame']
 		else:
 			raise Exception('Connect to the environment first')
@@ -110,7 +110,7 @@ class PolicyGradient:
 		print('Image fetched in main')
 		returns = None
 		prev_x = None
-		xs,hs,dlogs,drs=[],[],[],[]
+		xs,hs,dlogps,drs=[],[],[],[]
 		eps_no=0
 		reward_sum=0
 		while self.ongoingFlag:
@@ -118,7 +118,7 @@ class PolicyGradient:
 				pickle.dump(self.model, open('ending_'+str(n)+'.p', 'wb'))
 				print("Stopping the training as "+str(n)+" episodes are complete")
 				break
-			if render:
+			if self.render:
 				cv2.imshow("OUTPUT DONT Use This!!!",observation)
 				cv2.waitKey(5)
 			cur_x = self.preprocess(observation)
@@ -140,10 +140,10 @@ class PolicyGradient:
 				eps_no+=1
 				self.epx=np.vstack(xs)
 				self.eph=np.vstack(hs)
-				self.epdlogp = np.vstack(dlogs)
+				self.epdlogp = np.vstack(dlogps)
 				self.epr = np.vstack(drs)
 				xs,hs,dlogps,drs = [],[],[],[]
-				discounted_epr = discount_rewards(epr)
+				discounted_epr = self.semi_returns(epr)
 				discounted_epr -= np.mean(discounted_epr)
 				discounted_epr /=  np.std(discounted_epr)
 				epdlogp  *= discounted_epr
