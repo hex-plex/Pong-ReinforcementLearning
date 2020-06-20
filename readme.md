@@ -64,8 +64,8 @@ agent.start()         ## This starts the agent ie., connects to the server and c
 ```
 
 Running them should launch the env and agent would start leaning. There is a propriety control in mainmodel.py which takes input in its terminal as
-'p' ==> Pausing/Resuming the training process
-'q' ==> Quit the training process , But this makes a Checkpoint as interrupt.p
+- 'p' ==> Pausing/Resuming the training process
+- 'q' ==> Quit the training process , But this makes a Checkpoint as interrupt.p
 
 else with a better score of agent, the model is saved continuosly as save.p.
 
