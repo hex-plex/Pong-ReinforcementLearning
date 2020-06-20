@@ -1,8 +1,8 @@
-#Pong based on Reinforced learning
+# Pong based on Reinforced learning
 I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system.
 I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port.
 I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication.
-both the scripts have debug mode which allows one to see in which state or stage they are.
+both the scripts have debug mode which allows one to see in which state or stage they are in.
 ## Requirements
 This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
 The libraries
@@ -10,10 +10,10 @@ The libraries
 pickle
 numpy
 cv2
-## Below are mostly available preinstalled in any python distribution
+# Below are mostly available preinstalled in any python distribution
 socket
-BytesIO ## from io in python3 or directly in python2
-_thread ## for python 3 and thread in python2
+BytesIO # from io in python3 or directly in python2
+_thread # for python 3 and thread in python2
 ```
 Which are quite rudimentary and neccessary part of the code.
 
