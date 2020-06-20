@@ -1,4 +1,4 @@
-# Pong based on Reinforced learning
+# Pong with Reinforcement learning
 I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system.
 I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port.
 I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication.
