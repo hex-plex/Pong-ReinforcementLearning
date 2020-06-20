@@ -4,6 +4,18 @@ I have made pong.py a environment which one can host either locally (localhost) 
 I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication.
 both the scripts have debug mode which allows one to see in which state or stage they are.
 ## Requirements
+This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
+The libraries
+```bash
+pickle
+numpy
+cv2
+## Below are mostly available preinstalled in any python distribution
+socket
+BytesIO ## from io in python3 or directly in python2
+_thread ## for python 3 and thread in python2
+```
+Which are quite rudimentary and neccessary part of the code.
 
 ## Multithreading
 Here I have use many threads to assure that no data is missed while anyother calculation or process is running on the main thread as there might be some unwanted lag between inputs.Also another thread on mainmodel exists which take inputs  from the user for pausing and resuming its learning session
@@ -51,7 +63,12 @@ agent = PolicyGradient( resume=False,  ## This is usefull to continue training f
 agent.start()         ## This starts the agent ie., connects to the server and communicates and learns from its experience.
 ```
 
-Running them should launch the env and agent would start leaning.
+Running them should launch the env and agent would start leaning. There is a propriety control in mainmodel.py which takes input in its terminal as
+'p' ==> Pausing/Resuming the training process
+'q' ==> Quit the training process , But this makes a Checkpoint as interrupt.p
+
+else with a better score of agent, the model is saved continuosly as save.p.
+
 ## TODO
 
 - [X] Make a pong game or search for some source  code
@@ -61,3 +78,5 @@ Running them should launch the env and agent would start leaning.
 
 ## This is a demo of the pong game
 <img src="/images/pong-game.png">
+More to come
+......
