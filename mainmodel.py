@@ -84,6 +84,7 @@ class PolicyGradient:
 				inp_buffer=self.socket.recv(1024)
 				if not inp_buffer: break
 				img_buffer+=inp_buffer
+			print("Image Fetched in network")
 			return np.load(BytesIO(img_buffer))['frame']
 		else:
 			raise Exception('Connect to the environment first')
@@ -106,6 +107,7 @@ class PolicyGradient:
 			time.sleep(0.05)
 		self.send_action('1') ##For initiating
 		observation = self.get_frame()
+		print('Image fetched in main')
 		returns = None
 		prev_x = None
 		xs,hs,dlogs,drs=[],[],[],[]

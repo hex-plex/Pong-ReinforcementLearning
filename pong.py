@@ -75,8 +75,10 @@ class Pong:
                 continue
             if data[0]=='a':  ## a stands for action input
                 if data[2]=='1':
+                    #self.paddleA.moveUp(5)
                     self.buffer.insert(0,('1',time.time()))
                 elif data[2]=='2':
+                    #self.paddleA.moveDown(5)
                     self.buffer.insert(0,('2',time.time()))
             elif data[0]=='r': ## r stands for image request
                 while not self.new_feed:
@@ -86,7 +88,8 @@ class Pong:
                 np.savez_compressed(f,frame=temp)
                 f.seek(0)
                 out = f.read()
-                client_socket.sendall(out)
+                client_socket.send(out)
+                print('done')
             elif data[0]=='s': ## s stands for reward (score)
                 client_socket.send(self.reward)
         client_socket.close()
@@ -135,7 +138,7 @@ class Pong:
             while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     print("Atleast going here")
-                    if (time.time()-self.buffer[0][1])<=0.017: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
+                    if (time.time()-self.buffer[0][1])<=1: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
                         if self.buffer[0][0]=='1':
                             self.paddleA.moveUp(5)
                             inputs=True
@@ -197,9 +200,9 @@ class Pong:
                 if self.debug:print(self.ball.rect.x,self.ball.rect.y)
 
             ###Feed for the net###
-            self.feed=np.array(pygame.PixelArray(self.screen),dtype=np.uint8)
-            self.feed=self.feed.T
-            self.feed=self.feed.reshape([500,700,1])
+            self.feedinp=np.array(pygame.PixelArray(self.screen),dtype=np.uint8)
+            self.feedinp=self.feedinp.T
+            self.feed=self.feedinp.reshape([500,700,1])
             ##this can be used for screen capturing
             self.new_feed=True
 
