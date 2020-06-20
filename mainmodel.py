@@ -152,8 +152,8 @@ class PolicyGradient:
 				if eps_np%self.batch_size  == 0 :
 					for k,v in self.model.iteritems():
 						g = self.grad_buff[k]
-						self.rmsprop_cache[k] = self.decay_rate*rmsprop_cache[k] + (1-self.decay_rate)* g**2
-						self.model[k] += self.learning_rate*g / (np.sqrt(self.rmsprop_cache[k])+1e-5)
+						self.rmsprop_cache[k] = self.decayRate*rmsprop_cache[k] + (1-self.decayRate)* g**2
+						self.model[k] += self.learningRate*g / (np.sqrt(self.rmsprop_cache[k])+1e-5)
 						self.grad_buff[k] = np.zeros_like(v)
 				returns = reward_sum if returns is None else returns*0.99 + reward_sum*0.01
 				print(('This episode' if eps_no==0 else 'Another episode') + ' is completed with total reward: '+str(reward_sum)+' and runnign mean: '+str(returns))

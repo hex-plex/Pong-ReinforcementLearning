@@ -1,11 +1,63 @@
 #Pong based on Reinforced learning
+I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system.
+I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port.
+I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication.
+both the scripts have debug mode which allows one to see in which state or stage they are.
+## Requirements
 
+## Multithreading
+Here I have use many threads to assure that no data is missed while anyother calculation or process is running on the main thread as there might be some unwanted lag between inputs.Also another thread on mainmodel exists which take inputs  from the user for pausing and resuming its learning session
+## Sockets
+I have used sockets to send data between scripts rather than using a instance of model and the pong env on the same script well that would work just fine (or better removing all the lag of communication) , but my goal was to make it more appealing and to make me learn more real life skills that is if I train a agent with raspberry pi ( or any other weaker mobile device for that matter ) as a part of the environment or in the environment a more viable option than running both simulation and the RL agent would be to do the computation and send in actions to it. This also gave me a good understanding about data compression and network security ,though here there is none used as it just accepts the first connection to the env.
+
+with the use of socket one could manually control the environment with keyboard and also have a RL agent learning (half - Duplex).  
+
+## Demo
+To launch the env with mostly default values just running pong.py directly would start the server with default configs.
+Its always recommended to use its instance, apply your configuration you want it to run and start the server.
+```python
+from pong import Pong
+
+env = Pong( levelodiff=1, ## This is the level of the inbuilt AI that plays against you.
+                          ## Set it to 4 and chill out (really try it!!) the scale is 1-3
+            debug=False,  ## If set to True it will print the stage the environment is in and info the data inputs and outputs
+            render=False, ## It would render the image that is sent to the model, This slows down the process so not a good idea to use it.
+            server=True,  ## This is to set server mode on , if set false the environment will be no different from ordinary pong game.
+            host="",      ## This is to specify where you want to host it, "" maps to local host "0.0.0.0" doesnt really map
+                          ## to your ip address yet
+            port=12345    ## This your port no. of the connection.
+          )               ## This is to just initiate the environment
+
+env.start()## This starts the env ie., hosts itself as per the given parameter and waits for a connection in async while continuing the game
+```
+
+To launch the RL agent running the mainmodel.py directly will run it in default config.
+To customize to your config import and create an instance and run the client.
+```python
+from mainmodel import PolicyGradient
+
+## This uses two hidden layer to out-put 2 probabilities
+agent = PolicyGradient( resume=False,  ## This is usefull to continue training from previos checkpoint.
+                        render=True,   ## This will render the image got through the socket,useful if model is in another computer
+                        host=None,     ## If the value is None it trys to find a localhost , else specific host is to be provided as a str
+                        port=12345,    ## default value is 12345 set is as required.
+                        hiddenUnits=250, ## This no of hiddenUnits in first layer depending on the dimension of input.
+                        batch_size=10, ## This is to set batch size for batch reiforcement learning rather than using single episode.
+                        learningRate=1e-3, ## This is to set learning rate
+                        gamma=0.99,    ## This is to set gamma or the discount
+                        decayRate=0.99 ## This is decayRate for RMSprop
+                      )                ## This creates an instance of PolicyGradient algorithm as a client_socket
+
+agent.start()         ## This starts the agent ie., connects to the server and communicates and learns from its experience.
+```
+
+Running them should launch the env and agent would start leaning.
 ## TODO
 
 - [X] Make a pong game or search for some source  code
 - [X] Then host a server on flask on local server for the game so as to be able to send reward and control it using parallel computing(supposedly for pi).
 - [X] Make a basic model out of numpy
-- [X] Stack it against Open Gym AI Retro
+- [ ] Stack it against Open Gym AI Retro
 
 ## This is a demo of the pong game
 <img src="/images/pong-game.png">
