@@ -69,7 +69,7 @@ class Pong:
         client_socket, address = self.server_socket.accept()
         print("Connection from: "+str(address))
         while True:
-            data = client_socket.recv(1024).decode('utf-8')
+            data = client_socket.recv(3).decode('utf-8')  ##limiting the size makes the socket only takein one at a time
             if self.debug: print('network-input:',data)
             if not data:
                 continue

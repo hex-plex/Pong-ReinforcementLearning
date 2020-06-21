@@ -16,8 +16,8 @@ class PolicyGradient:
 		for t in reversed(range(0,rewards.size)):
 			if rewards[t]!=0:
 				sums=0
-			sums+=r[t]
-			discount_r[t] = sums
+			sums+=rewards[t]
+			discounted_r[t] = sums
 		return discounted_r
 	def fc(self,x):
 		h=np.dot(self.model['W1'],x)
@@ -143,21 +143,21 @@ class PolicyGradient:
 				self.epdlogp = np.vstack(dlogps)
 				self.epr = np.vstack(drs)
 				xs,hs,dlogps,drs = [],[],[],[]
-				discounted_epr = self.semi_returns(epr)
+				discounted_epr = self.semi_returns(self.epr).astype(dtype=np.float64)
 				discounted_epr -= np.mean(discounted_epr)
 				discounted_epr /=  np.std(discounted_epr)
-				epdlogp  *= discounted_epr
+				self.epdlogp  *= discounted_epr
 				grad = self.backward()
-				for k in self.model: self.grad_buff[k]+=grad[k]
-				if eps_np%self.batch_size  == 0 :
-					for k,v in self.model.iteritems():
+				for k in self.model: self.grad_buff[k]+=grad['d'+k]
+				if eps_no%self.batch_size  == 0 :
+					for k,v in self.model.items():
 						g = self.grad_buff[k]
-						self.rmsprop_cache[k] = self.decayRate*rmsprop_cache[k] + (1-self.decayRate)* g**2
+						self.rmsprop_cache[k] = self.decayRate*self.rmsprop_cache[k] + (1-self.decayRate)* g**2
 						self.model[k] += self.learningRate*g / (np.sqrt(self.rmsprop_cache[k])+1e-5)
 						self.grad_buff[k] = np.zeros_like(v)
 				returns = reward_sum if returns is None else returns*0.99 + reward_sum*0.01
 				print(('This episode' if eps_no==0 else 'Another episode') + ' is completed with total reward: '+str(reward_sum)+' and runnign mean: '+str(returns))
-				if episode_no%100==0:
+				if eps_no%100==0:
 					 pickle.dump(self.model, open('save.p', 'wb'))
 				reward_sum=0
 				time.sleep(0.05)## THis is for the ball to go away from the boundary after someone has won
