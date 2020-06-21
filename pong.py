@@ -135,7 +135,7 @@ class Pong:
 
 
             ## It can be changed to if after training but not while training
-            while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
+            if self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     if self.debug: print("Search started for input")
                     if (time.time()-self.buffer[0][1])<=1.5: ## For being sure that it matches up with frame rate but may have to be reduced as there might be a lag in the server requests
