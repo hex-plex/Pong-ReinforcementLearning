@@ -12,7 +12,7 @@ t=1
 while t>0:
     sct.get_pixels(mon)
     img = Image.frombytes('RGB', (sct.width, sct.height), sct.image)
-    cv2.imwrite('~/pong-rl/output/output'+str(t)+".jpg",rgb2bgr(np.array(img)))
+    cv2.imwrite('output/output'+str(t)+".jpg",rgb2bgr(np.array(img)))
     cv2.imshow('test', rgb2bgr(np.array(img)))
     t+=1
     if cv2.waitKey(25) & 0xFF == ord('q'):
