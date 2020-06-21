@@ -1,6 +1,6 @@
 # Pong with Reinforcement learning
 I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system.<br/>
-I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port. <br/>
+I have made [pong.py](https://github.com/hex-plex/Pong-ReinforcementLearning/blob/master/pong.py) a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to [mainmodel.py](https://github.com/hex-plex/Pong-ReinforcementLearning/blob/master/mainmodel.py) which has to be connected to the same host and the same port. <br/>
 I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication. <br/>
 both the scripts have debug mode which allows one to see in which state or stage they are in. <br/>
 ## Requirements
@@ -26,7 +26,7 @@ I have used sockets to send data between scripts rather than using a instance of
 with the use of socket one could manually control the environment with keyboard and also have a RL agent learning (half - Duplex).  
 
 ## Demo
-To launch the env with mostly default values just running pong.py directly would start the server with default configs.
+To launch the env with mostly default values just running [pong.py](https://github.com/hex-plex/Pong-ReinforcementLearning/blob/master/pong.py) directly would start the server with default configs.
 Its always recommended to use its instance, apply your configuration you want it to run and start the server.
 ```python
 from pong import Pong
@@ -44,7 +44,7 @@ env = Pong( levelodiff=1, ## This is the level of the inbuilt AI that plays agai
 env.start()## This starts the env ie., hosts itself as per the given parameter and waits for a connection in async while continuing the game
 ```
 
-To launch the RL agent running the mainmodel.py directly will run it in default config. <br/>
+To launch the RL agent running the [mainmodel.py](https://github.com/hex-plex/Pong-ReinforcementLearning/blob/master/mainmodel.py) directly will run it in default config. <br/>
 To customize to your config import and create an instance and run the client. <br/>
 ```python
 from mainmodel import PolicyGradient
@@ -75,7 +75,7 @@ else with a better score of agent, the model is saved continuosly as save.p.
 - [X] Make a pong game or search for some source  code
 - [X] Then host a server on flask on local server for the game so as to be able to send reward and control it using parallel computing(supposedly for pi).
 - [X] Make a basic model out of numpy
-- [ ] Stack it against Open Gym AI Retro
+- [ ] <del>Stack it against Open Gym AI Retro</del> - Training to be done
 
 ## Bugs
 - [ ] Sometimes the sequence of SAR gets rearranged due to any slow down in the network
