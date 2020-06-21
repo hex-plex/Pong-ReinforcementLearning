@@ -79,7 +79,8 @@ else with a better score of agent, the model is saved continuosly as save.p.
 
 ## Bugs
 - [X] Sometimes the sequence of SAR gets rearranged due to any slow down in the network
-- [ ] The training process is slowed due to network , enable the async mechanishms
+- [X] The training process is slowed due to network , enable the async mechanishms
+Nothing for now only further test would say
 ## This is a demo of the pong game
 <img src="/images/pong-game.png"> <br/>
 More to come<br/>
