@@ -84,5 +84,5 @@ else with a better score of agent, the model is saved continuosly as save.p.
 <img src="/images/pong-game.png"> <br/>
 More to come<br/>
 ......<br/>
-<img src="/initial_training.png"> <br/>
+<img src="/initial_training.gif"> <br/>
 This clip from initial training session.
