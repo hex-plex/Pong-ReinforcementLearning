@@ -78,7 +78,8 @@ else with a better score of agent, the model is saved continuosly as save.p.
 - [ ] <del>Stack it against Open Gym AI Retro</del> - Training to be done
 
 ## Bugs
-- [ ] Sometimes the sequence of SAR gets rearranged due to any slow down in the network
+- [X] Sometimes the sequence of SAR gets rearranged due to any slow down in the network
+- [ ] The training process is slowed due to network , enable the async mechanishms
 ## This is a demo of the pong game
 <img src="/images/pong-game.png"> <br/>
 More to come
