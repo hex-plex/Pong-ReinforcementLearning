@@ -1,8 +1,8 @@
 # Pong with Reinforcement learning
-I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system.
-I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port.
-I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication.
-both the scripts have debug mode which allows one to see in which state or stage they are in.
+I have tried baking a rudimentary RL environment and a agent recipe to learn more about the eco-system. __
+I have made pong.py a environment which one can host either locally (localhost) or on  0.0.0.0 (LAN).Allowing to communicate to mainmodel.py which has to be connected to the same host and the same port. __
+I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication. __
+both the scripts have debug mode which allows one to see in which state or stage they are in. __
 ## Requirements
 This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
 The libraries
@@ -10,6 +10,7 @@ The libraries
 pickle
 numpy
 cv2
+pygame
 # Below are mostly available preinstalled in any python distribution
 socket
 BytesIO # from io in python3 or directly in python2
@@ -20,8 +21,8 @@ Which are quite rudimentary and neccessary part of the code.
 ## Multithreading
 Here I have use many threads to assure that no data is missed while anyother calculation or process is running on the main thread as there might be some unwanted lag between inputs.Also another thread on mainmodel exists which take inputs  from the user for pausing and resuming its learning session
 ## Sockets
-I have used sockets to send data between scripts rather than using a instance of model and the pong env on the same script well that would work just fine (or better removing all the lag of communication) , but my goal was to make it more appealing and to make me learn more real life skills that is if I train a agent with raspberry pi ( or any other weaker mobile device for that matter ) as a part of the environment or in the environment a more viable option than running both simulation and the RL agent would be to do the computation and send in actions to it. This also gave me a good understanding about data compression and network security ,though here there is none used as it just accepts the first connection to the env.
-
+I have used sockets to send data between scripts rather than using a instance of model and the pong env on the same script well that would work just fine (or better removing all the lag of communication) , but my goal was to make it more appealing and to make me learn more real life skills that is if I train a agent with raspberry pi ( or any other weaker mobile device for that matter ) as a part of the environment or in the environment a more viable option than running both simulation and the RL agent would be to do the computation and send in actions to it. This also gave me a good understanding about data compression and network security ,though here there is none used as it just accepts the first connection to the env. __
+__
 with the use of socket one could manually control the environment with keyboard and also have a RL agent learning (half - Duplex).  
 
 ## Demo
@@ -43,8 +44,8 @@ env = Pong( levelodiff=1, ## This is the level of the inbuilt AI that plays agai
 env.start()## This starts the env ie., hosts itself as per the given parameter and waits for a connection in async while continuing the game
 ```
 
-To launch the RL agent running the mainmodel.py directly will run it in default config.
-To customize to your config import and create an instance and run the client.
+To launch the RL agent running the mainmodel.py directly will run it in default config. __
+To customize to your config import and create an instance and run the client. __
 ```python
 from mainmodel import PolicyGradient
 
@@ -76,7 +77,9 @@ else with a better score of agent, the model is saved continuosly as save.p.
 - [X] Make a basic model out of numpy
 - [ ] Stack it against Open Gym AI Retro
 
+## Bugs
+- [ ] Sometimes the sequence of SAR gets rearranged due to any slow down in the network
 ## This is a demo of the pong game
-<img src="/images/pong-game.png">
+<img src="/images/pong-game.png"> __
 More to come
 ......
