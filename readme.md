@@ -82,5 +82,7 @@ else with a better score of agent, the model is saved continuosly as save.p.
 - [ ] The training process is slowed due to network , enable the async mechanishms
 ## This is a demo of the pong game
 <img src="/images/pong-game.png"> <br/>
-More to come
-......
+More to come<br/>
+......<br/>
+<img src="/initial_training.png"> <br/>
+This clip from initial training session.
