@@ -96,7 +96,7 @@ class Pong:
             elif data[0]=='p':
                 self.pause = True
                 i=1
-                while i<10:
+                while i<=10:
                     client_socket.send("done".encode('utf-8'))
                     temporary = client_socket.recv(3).decode('utf-8')
                     if temporary:

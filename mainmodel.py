@@ -54,18 +54,36 @@ class PolicyGradient:
 		self.handshake = False
 		self.runningFlag=True
 		self.ongoingFlag=True
+		self.pause = False
 	def propriety_control(self,dummy):
 		while self.runningFlag:
 			a=input()
 			if a=='p':
-				print("Pausing the training session" if self.ongoingFlag else "Resuming the training session")
-				self.ongoingFlag= not self.ongoingFlag
-			elif 'q':
+				print("Pausing the training session" if self.pause else "Resuming the training session")
+				self.pause= not self.pause
+			elif a=='q':
 				self.ongoingFlag=False
 				print("Interupting saving the previous checkpoint to interrupt.p .")
 				pickle.dump(self.model, open('interrupt.p', 'wb'))
 				time.sleep(0.02)
 				exit()
+			elif a=='ping':
+				self.pause = True
+				i = 1
+				avg = 0
+				_check = True
+				while i<=10:
+					_check,tempp = self.get_ping()
+					if not _check:
+						break
+					avg += tempp
+					print("ping-"+str(i)+" t: "+str(tempp*100)+" ms")
+					i+=1
+				if _check:
+					print("Ping process done avg t :"+str(avg*10) +" ms" )
+				else:
+					print("There is been a problem receiving packets !!!")
+				self.pause = False
 			## If cases to pause the environment
 		## This is to give a basic control over the training and other things
 		return True
@@ -100,6 +118,15 @@ class PolicyGradient:
 			self.socket.send(('a-'+action).encode('utf-8')) ## Add a confirmation
 		else:
 			raise Exception('Connect to the environment first')
+	def get_ping(self):
+		init = time.time()
+		self.socket.send(('pin').encode('utf-8'))
+		tempc = self.socket.recv(4).decode('utf-8')
+		while tempc is None:
+			tempc = self.socket.recv(4).decode('utf-8')
+			if time.time() - init > 30:
+				return False,time.time()-init
+		return True, time.time() - init
 	def start(self,n=10000000000000000):
 		_thread.start_new_thread(self.connect_env, (self.host,))
 		_thread.start_new_thread(self.propriety_control, (True,))
@@ -114,6 +141,8 @@ class PolicyGradient:
 		eps_no=0
 		reward_sum=0
 		while self.ongoingFlag:
+			if self.pause:
+				continue
 			if  eps_no >n:
 				pickle.dump(self.model, open('ending_'+str(n)+'.p', 'wb'))
 				print("Stopping the training as "+str(n)+" episodes are complete")
