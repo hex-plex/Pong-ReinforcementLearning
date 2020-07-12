@@ -55,6 +55,7 @@ class Pong:
         self.all_sprites_list.add(self.paddleB)
         self.all_sprites_list.add(self.ball)
         self.carryOn = True
+        self.pause = False
         self.new_feed=False ## So that the socket wont be able to send till the game is not started
         self.buffer = []
     def start_server(self):
@@ -93,10 +94,16 @@ class Pong:
             elif data[0]=='s': ## s stands for reward (score)
                 client_socket.send(str(self.reward).encode('utf-8'))
             elif data[0]=='p':
+                self.pause = True
                 i=1
                 while i<10:
-
-                    i+=1
+                    client_socket.send("done".encode('utf-8'))
+                    temporary = client_socket.recv(3).decode('utf-8')
+                    if temporary:
+                        i+=1
+                    else:
+                        break
+                self.pause = False
         client_socket.close()
         self.server_socket.close()
         return 0
@@ -114,6 +121,8 @@ class Pong:
         self.scoreB = 0
         effect = pygame.mixer.Sound('Sounds/button-16-1.wav')
         while self.carryOn:
+            if self.pause:
+                continue
             self.reward=0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -236,7 +245,6 @@ class Pong:
 
 
             self.clock.tick(60)
-
     def close(self):
         self.carryOn=False
         time.sleep(0.05)
