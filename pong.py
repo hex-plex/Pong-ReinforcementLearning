@@ -149,7 +149,7 @@ class Pong:
 
 
             ## It can be changed to if after training but not while training
-            while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
+            if self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     if self.pause:
                         break
