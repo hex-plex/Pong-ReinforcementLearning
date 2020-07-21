@@ -55,6 +55,7 @@ class PolicyGradient:
 		self.runningFlag=True
 		self.ongoingFlag=True
 		self.pause = False
+		self.frooze = False
 	def propriety_control(self,dummy):
 		while self.runningFlag:
 			a=input()
@@ -69,21 +70,13 @@ class PolicyGradient:
 				exit()
 			elif a=='ping':
 				self.pause = True
-				i = 1
-				avg = 0
-				_check = True
-				while i<=10:
-					_check,tempp = self.get_ping()
-					if not _check:
-						break
-					avg += tempp
-					print("ping-"+str(i)+" t: "+str(tempp*100)+" ms")
-					i+=1
-				if _check:
-					print("Ping process done avg t :"+str(avg*10) +" ms" )
-				else:
-					print("There is been a problem receiving packets !!!")
-				self.pause = False
+				print("Waiting for the main loop to stop",end="")
+				while not self.frooze:
+					 print(".",end="")
+				print("")
+				self.start_ping()
+
+				##Use a spinlock to stop the main thread the while loop to make this work
 			## If cases to pause the environment
 		## This is to give a basic control over the training and other things
 		return True
@@ -118,6 +111,22 @@ class PolicyGradient:
 			self.socket.send(('a-'+action).encode('utf-8')) ## Add a confirmation
 		else:
 			raise Exception('Connect to the environment first')
+	def start_ping(self):
+		i = 1
+		avg = 0
+		_check = True
+		while i<=10:
+			_check,tempp = self.get_ping()
+			if not _check:
+				break
+			avg += tempp
+			print("ping-"+str(i)+" t: "+str(tempp*100)+" ms")
+			i+=1
+		if _check:
+			print("Ping process done avg t :"+str(avg*10) +" ms" )
+		else:
+			print("There is been a problem receiving packets !!!")
+		self.pause = False
 	def get_ping(self):
 		init = time.time()
 		self.socket.send(('pin').encode('utf-8'))
@@ -142,7 +151,9 @@ class PolicyGradient:
 		reward_sum=0
 		while self.ongoingFlag:
 			if self.pause:
+				self.frooze =True
 				continue
+			self.frooze = False
 			if  eps_no >n:
 				pickle.dump(self.model, open('ending_'+str(n)+'.p', 'wb'))
 				print("Stopping the training as "+str(n)+" episodes are complete")
