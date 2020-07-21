@@ -4,6 +4,7 @@ import socket
 from io import BytesIO
 import _thread
 import time
+import cv2
 class PolicyGradient:
 	def sigmoid(self,x):
 		return 1.0 / (1.0+np.exp(-x))
@@ -207,5 +208,5 @@ class PolicyGradient:
 					print('episode '+str(eps_no)+' game finished reward '+str(reward)+ ('' if reward==-1 else '!!!!!!'))
 
 if __name__ == "__main__":
-	model = PolicyGradient(resume=True)
+	model = PolicyGradient()
 	model.start()

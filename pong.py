@@ -84,7 +84,7 @@ class Pong:
             elif data[0]=='r': ## r stands for image request
                 while not self.new_feed:
                     time.sleep(0.00005)
-                temp=cv2.resize(self.feed,(50,70))
+                temp=cv2.resize(self.feed,(70,50))
                 f = BytesIO()
                 np.savez_compressed(f,frame=temp)
                 f.seek(0)
@@ -98,7 +98,7 @@ class Pong:
                 self.pause = True
                 i=1
                 while i<=10:
-                    temp=cv2.resize(self.feed,(50,70))
+                    temp=cv2.resize(self.feed,(70,50))
                     f = BytesIO()
                     np.savez_compressed(f,frame=temp)
                     f.seek(0)
