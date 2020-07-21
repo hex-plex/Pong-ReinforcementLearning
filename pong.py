@@ -93,6 +93,7 @@ class Pong:
                 if self.debug:print('image sent')
             elif data[0]=='s': ## s stands for reward (score)
                 client_socket.send(str(self.reward).encode('utf-8'))
+                self.reward = 0 ## This fixes the timing issue
             elif data[0]=='p':
                 self.pause = True
                 i=1
@@ -119,11 +120,12 @@ class Pong:
         temp=True
         self.scoreA = 0
         self.scoreB = 0
+        self.reward=0
         effect = pygame.mixer.Sound('Sounds/button-16-1.wav')
         while self.carryOn:
             if self.pause:
                 continue
-            self.reward=0
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.carryOn = False
@@ -149,7 +151,7 @@ class Pong:
 
 
             ## It can be changed to if after training but not while training
-            if self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
+            while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     if self.pause:
                         break
@@ -246,7 +248,7 @@ class Pong:
                         temp=False
 
 
-            self.clock.tick(60)
+            self.clock.tick(120)
     def close(self):
         self.carryOn=False
         time.sleep(0.05)
