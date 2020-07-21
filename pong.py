@@ -212,7 +212,6 @@ class Pong:
                 self.flagrem=0
 
             self.screen.fill(self.BLACK)
-            pygame.draw.line(self.screen, self.WHITE, [349,0], [349,500], 5)
             self.all_sprites_list.draw(self.screen)
             if self.ball.rect.x<10 or self.ball.rect.x>680 or self.ball.rect.y<10 or self.ball.rect.y>490:
                 if self.debug:print(self.ball.rect.x,self.ball.rect.y)
@@ -229,6 +228,7 @@ class Pong:
                 cv2.waitKey(1)
             ######################
 
+            pygame.draw.line(self.screen, self.WHITE, [349,0], [349,500], 5)
             font = pygame.font.Font(None, 74)
             text = font.render(str(self.scoreA), 1 ,self.WHITE)
             self.screen.blit(text , (250,10))
