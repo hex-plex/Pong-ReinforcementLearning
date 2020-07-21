@@ -151,7 +151,7 @@ class Pong:
 
 
             ## It can be changed to if after training but not while training
-            if self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
+            while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
                 while len(self.buffer)!=0:
                     if self.pause:
                         break
@@ -248,7 +248,7 @@ class Pong:
                         temp=False
 
 
-            self.clock.tick(60) ## Varing this gives acceptable amount of performance to the environments
+            self.clock.tick(1000) ## Varing this gives acceptable amount of performance to the environments
     def close(self):
         self.carryOn=False
         time.sleep(0.05)

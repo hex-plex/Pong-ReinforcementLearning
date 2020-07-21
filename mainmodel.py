@@ -12,11 +12,11 @@ class PolicyGradient:
 
 	def semi_returns(self,rewards):
 		discounted_r = np.zeros_like(rewards)
-		sums=0
-		for t in reversed(range(0,rewards.size)):
+		sums=rewards[-1]
+		for t in reversed(range(len(rewards))):
 			if rewards[t]!=0:
 				sums=0
-			sums+=rewards[t]
+			sums = sums*self.gamma + rewards[t]
 			discounted_r[t] = sums
 		return discounted_r
 	def fc(self,x):
@@ -174,7 +174,7 @@ class PolicyGradient:
 			observation = self.get_frame()
 			reward = self.get_reward()
 			done = True if reward!=0 else False
-			reward_sum+=reward
+			reward_sum += reward
 			drs.append(reward)
 			if done:
 				eps_no+=1
@@ -183,7 +183,7 @@ class PolicyGradient:
 				self.epdlogp = np.vstack(dlogps)
 				self.epr = np.vstack(drs)
 				xs,hs,dlogps,drs = [],[],[],[]
-				discounted_epr = self.semi_returns(self.epr).astype(dtype=np.float64)
+				discounted_epr = self.semi_returns(self.epr).astype(np.float64)
 				discounted_epr -= np.mean(discounted_epr)
 				discounted_epr /=  np.std(discounted_epr)
 				self.epdlogp  *= discounted_epr
