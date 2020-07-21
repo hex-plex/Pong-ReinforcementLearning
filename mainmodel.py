@@ -20,17 +20,17 @@ class PolicyGradient:
 			discounted_r[t] = sums
 		return discounted_r
 	def fc(self,x):
-		h=np.dot(self.model['W1'],x)
-		h[h<0]=0
-		logp = np.dot(self.model['W2'],h)
-		p = self.sigmoid(logp)
+		h=np.dot(self.model['W1'],x).astype(np.float64)
+		h[h < 0.00]=0.00
+		logp = np.dot(self.model['W2'],h).astype(np.float64)
+		p = self.sigmoid(logp).astype(np.float64)
 		return p,h
 
 	def backward(self):
-		dW2 = np.dot(self.eph.T,self.epdlogp).ravel()
-		dh = np.outer(self.epdlogp,self.model['W2'])
-		dh[self.eph<=0] = 0
-		dW1 = np.dot(dh.T,self.epx)
+		dW2 = np.dot(self.eph.T,self.epdlogp).ravel().astype(np.float64)
+		dh = np.outer(self.epdlogp,self.model['W2']).astype(np.float64)
+		dh[self.eph <= 0.00] = 0.00
+		dW1 = np.dot(dh.T,self.epx).astype(np.float64)
 		return {'dW1':dW1,'dW2':dW2}
 	def __init__(self,resume=False,render=False,hiddenUnits = 250,batch_size = 10,learningRate= 1e-3,gamma = 0.99,decayRate = 0.99,host=None,port=12345):
 		if resume:

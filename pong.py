@@ -248,7 +248,7 @@ class Pong:
                         temp=False
 
 
-            self.clock.tick(120)
+            self.clock.tick(60) ## Varing this gives acceptable amount of performance to the environments
     def close(self):
         self.carryOn=False
         time.sleep(0.05)
