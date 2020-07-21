@@ -130,9 +130,9 @@ class PolicyGradient:
 	def get_ping(self):
 		init = time.time()
 		self.socket.send(('pin').encode('utf-8'))
-		tempc = self.socket.recv(4).decode('utf-8')
+		tempc = self.socket.recv(4096)
 		while tempc is None:
-			tempc = self.socket.recv(4).decode('utf-8')
+			tempc = self.socket.recv(4096)
 			if time.time() - init > 30:
 				return False,time.time()-init
 		return True, time.time() - init
@@ -207,5 +207,5 @@ class PolicyGradient:
 					print('episode '+str(eps_no)+' game finished reward '+str(reward)+ ('' if reward==-1 else '!!!!!!'))
 
 if __name__ == "__main__":
-	model = PolicyGradient()
+	model = PolicyGradient(resume=True)
 	model.start()
