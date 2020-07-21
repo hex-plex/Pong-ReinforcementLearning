@@ -98,7 +98,12 @@ class Pong:
                 self.pause = True
                 i=1
                 while i<=10:
-                    client_socket.send("done".encode('utf-8'))
+                    temp=cv2.resize(self.feed,(50,70))
+                    f = BytesIO()
+                    np.savez_compressed(f,frame=temp)
+                    f.seek(0)
+                    out = f.read()
+                    client_socket.send(out)
                     temporary = client_socket.recv(3).decode('utf-8')
                     if temporary:
                         i+=1

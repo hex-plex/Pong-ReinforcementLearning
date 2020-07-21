@@ -34,7 +34,7 @@ class PolicyGradient:
 		return {'dW1':dW1,'dW2':dW2}
 	def __init__(self,resume=False,render=False,hiddenUnits = 250,batch_size = 10,learningRate= 1e-3,gamma = 0.99,decayRate = 0.99,host=None,port=12345):
 		if resume:
-			self.model = pickle.load(open("checkpoint.p",'rb'))
+			self.model = pickle.load(open("save.p",'rb'))
 		else:
 			self.model={}
 			self.model['W1']=np.random.randn(hiddenUnits,70*50)/60 ## Needs changes
