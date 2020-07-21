@@ -196,14 +196,14 @@ class PolicyGradient:
 						self.model[k] += self.learningRate*g / (np.sqrt(self.rmsprop_cache[k])+1e-5)
 						self.grad_buff[k] = np.zeros_like(v)
 				returns = reward_sum if returns is None else returns*0.99 + reward_sum*0.01
-				print(('This episode' if eps_no==0 else 'Another episode') + ' is completed with total reward: '+str(reward_sum)+' and runnign mean: '+str(returns))
+				print(('This episode' if eps_no==0 else 'Another episode') + ' is completed with total reward: '+str(reward_sum)+' and running mean: '+str(returns))
 				if eps_no%100==0:
 					 pickle.dump(self.model, open('save.p', 'wb'))
 				reward_sum=0
-				time.sleep(0.05)## THis is for the ball to go away from the boundary after someone has won
+				#time.sleep(0.05)## THis is for the ball to go away from the boundary after someone has won
 				observation = self.get_frame()
 				prev_x=None
-				if reward !=0:
+			if reward !=0:
 					print('episode '+str(eps_no)+' game finished reward '+str(reward)+ ('' if reward==-1 else '!!!!!!'))
 
 if __name__ == "__main__":
