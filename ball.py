@@ -30,3 +30,8 @@ class Ball(pygame.sprite.Sprite):
         self.velocity[1] = randint(-8,8)
     def posi(self):
         return self.rect
+    def spawn(self):
+        self.velocity = [randint(4,8),randint(-8,8)]
+        self.rect.x = self.twidth/2
+        self.rect.y = self.theight/2
+        return True

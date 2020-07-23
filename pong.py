@@ -252,7 +252,8 @@ class Pong:
                         print(np.array(self.feed,dtype=np.uint8).sum())
                         temp=False
 
-
+            if self.reward!=0:
+                self.ball.spawn()
             self.clock.tick(1000) ## Varing this gives acceptable amount of performance to the environments
     def close(self):
         self.carryOn=False
