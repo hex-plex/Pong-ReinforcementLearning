@@ -47,7 +47,7 @@ class Pong:
 
         self.ball = Ball(self.WHITE, 10, 10 ,self.size[0],self.size[1])
         self.ball.rect.x = 345
-        self.ball.rect.y = 195
+        self.ball.rect.y = 245
 
         self.all_sprites_list = pygame.sprite.Group()
 
