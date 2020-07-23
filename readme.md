@@ -78,7 +78,7 @@ else with a better score of agent, the model is saved continuosly as save.p.
 - [ ] <del>Stack it against Open Gym AI Retro</del> - Training to be done
 
 ## Bugs
-- [ ] The state after the score being changed is the same as the one just before scoring hence confusing the Neural Net
+- [X] The state after the score being changed is the same as the one just before scoring hence confusing the Neural Net
 - [X] <del>The training process is slowed due to network , enable the async mechanishms</del> enabling this leads to drop few states by the environment to seemlessly continue but as the change from one state to other is small it should not be a problem.
 Nothing for now only further test would say
 ## This is a demo of the pong game
