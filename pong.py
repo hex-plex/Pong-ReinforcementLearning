@@ -93,7 +93,10 @@ class Pong:
                 if self.debug:print('image sent')
             elif data[0]=='s': ## s stands for reward (score)
                 client_socket.send(str(self.reward).encode('utf-8'))
+                if self.reward!=0:
+                    self.ball.spawn()
                 self.reward = 0 ## This fixes the timing issue
+
             elif data[0]=='p':
                 self.pause = True
                 i=1
@@ -227,7 +230,6 @@ class Pong:
             self.feed=self.feedinp.reshape([500,700,1])
             ##this can be used for screen capturing
             self.new_feed=True
-
             if self.render:
                 cv2.imshow('hello',self.feed)
                 cv2.waitKey(1)
@@ -252,9 +254,8 @@ class Pong:
                         print(np.array(self.feed,dtype=np.uint8).sum())
                         temp=False
 
-            if self.reward!=0:
-                self.ball.spawn()
-            self.clock.tick(1000) ## Varing this gives acceptable amount of performance to the environments
+
+            self.clock.tick(60) ## Varing this gives acceptable amount of performance to the environments
     def close(self):
         self.carryOn=False
         time.sleep(0.05)

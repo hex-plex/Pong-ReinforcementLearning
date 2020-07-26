@@ -1,6 +1,7 @@
 import pygame
 from random import randint
 BLACK = (0,0,0)
+import numpy as np
 
 class Ball(pygame.sprite.Sprite):
 
@@ -31,7 +32,7 @@ class Ball(pygame.sprite.Sprite):
     def posi(self):
         return self.rect
     def spawn(self):
-        self.velocity = [randint(4,8),randint(-8,8)]
+        self.velocity = [ np.random.choice([-1,1])*randint(4,8) ,randint(-8,8)]
         self.rect.x = (self.twidth - self.width) / 2
         self.rect.y = (self.theight - self.height) / 2
         return True
