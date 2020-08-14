@@ -86,4 +86,4 @@ Nothing for now only further test would say
 More to come<br/>
 ......<br/>
 <img src="/initial_training.gif"> <br/>
-This clip from initial training session.
+This a clip from initial training session.
