@@ -15,7 +15,7 @@ class Pong:
     BLACK = (0,0,0)
     WHITE = (255,255,255)
     size = (700,500)
-    def __init__(self,levelodiff=2,render=False,debug=False,server=True,host='',port=12345):
+    def __init__(self,levelodiff=2,render=False,debug=False,server=True,host='',port=12345,sync=True):
         self.debug=debug
         self.render = render
         self.levelodiff = levelodiff
@@ -56,6 +56,7 @@ class Pong:
         self.all_sprites_list.add(self.ball)
         self.carryOn = True
         self.pause = False
+        self.sync = sync
         self.new_feed=False ## So that the socket wont be able to send till the game is not started
         self.buffer = []
     def start_server(self):
@@ -231,7 +232,7 @@ class Pong:
             ##this can be used for screen capturing
             self.new_feed=True
             if self.render:
-                cv2.imshow('hello',self.feed)
+                cv2.imshow('hello',cv2.resize(self.feed,(70,50)))
                 cv2.waitKey(1)
             ######################
 
@@ -255,7 +256,8 @@ class Pong:
                         temp=False
 
 
-            self.clock.tick(60) ## Varing this gives acceptable amount of performance to the environments
+            if self.sync:
+                self.clock.tick(60) ## Varing this gives acceptable amount of performance to the environments
     def close(self):
         self.carryOn=False
         time.sleep(0.05)
