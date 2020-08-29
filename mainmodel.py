@@ -137,7 +137,7 @@ class PolicyGradient:
 			if time.time() - init > 30:
 				return False,time.time()-init
 		return True, time.time() - init
-	def start(self,n=10000000000000000):
+	def start(self,n=25000):
 		_thread.start_new_thread(self.connect_env, (self.host,))
 		_thread.start_new_thread(self.propriety_control, (True,))
 		while not self.handshake:
