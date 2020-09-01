@@ -19,7 +19,7 @@ _thread # for python 3 and thread in python2
 Which are quite rudimentary and neccessary part of the code.
 
 ## Multithreading
-Here I have use many threads to assure that no data is missed while anyother calculation or process is running on the main thread as there might be some unwanted lag between inputs.Also another thread on mainmodel exists which take inputs  from the user for pausing and resuming its learning session
+Here I have use many threads to assure that no data is missed while any other calculation or process is running on the main thread as there might be some unwanted lag between inputs.Also another thread on mainmodel exists which take inputs  from the user for pausing and resuming its learning session
 ## Sockets
 I have used sockets to send data between scripts rather than using a instance of model and the pong env on the same script well that would work just fine (or better removing all the lag of communication) , but my goal was to make it more appealing and to make me learn more real life skills that is if I train a agent with raspberry pi ( or any other weaker mobile device for that matter ) as a part of the environment or in the environment a more viable option than running both simulation and the RL agent would be to do the computation and send in actions to it. This also gave me a good understanding about data compression and network security ,though here there is none used as it just accepts the first connection to the env. <br/>
 <br/>
@@ -85,5 +85,12 @@ Nothing for now only further test would say
 <img src="/images/pong-game.png"> <br/>
 More to come<br/>
 ......<br/>
-<img src="/initial_training.gif"> <br/>
-This a clip from initial training session.
+## Fast-training
+I have experimented the whole thing with networking sockets and asynchronous methods limiting the training process to human level speed for which I have uploaded the pong-fast-train.tar.gz
+``` bash
+tar -xvzf pong-fast-train.tar.gz
+cd pong-fast
+python mainmodel.py
+mv save.p ../save.p
+```
+So this should train the model and save it into the main directory this should load the trained model in the main algo.
