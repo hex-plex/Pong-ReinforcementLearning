@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -l select=ncpus=2:mem=10gb:ngpus=1
+#PBS -q gpu
+module load cuda
+module load anaconda/3
+source activate myenv
+python Pong-ReinforcementLearning/run.py
+source deactivate
+
+	$ qsub test_prog            // to submit job on pbs scheduler
+	$ qstat                     // to see the status of submitted jobs
+	$ qstat -ans job_id         // detailed status
+	$ qdel joib_id              // to remove submitted job
+
+
