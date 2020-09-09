@@ -3,7 +3,7 @@ import time
 
 from pong import Pong
 from mainmodel import PolicyGradient
-game = Pong(2,server=True,sync=False)##,debug=True)
+game = Pong(2,server=True,sync=False,headless=True)##,debug=True)
 _thread.start_new_thread(game.start,())
 time.sleep(5)
 model = PolicyGradient(resume=True)

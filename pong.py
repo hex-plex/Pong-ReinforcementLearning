@@ -9,13 +9,14 @@ import time
 import socket
 import _thread
 from io import BytesIO
+import os
 class Pong:
     pygame.mixer.pre_init(44100, -16, 1, 128)
     pygame.init()
     BLACK = (0,0,0)
     WHITE = (255,255,255)
     size = (700,500)
-    def __init__(self,levelodiff=2,render=False,debug=False,server=True,host='',port=12345,sync=True):
+    def __init__(self,levelodiff=2,render=False,debug=False,server=True,host='',port=12345,sync=True,headless=False):
         self.debug=debug
         self.render = render
         self.levelodiff = levelodiff
@@ -35,8 +36,14 @@ class Pong:
         if self.levelodiff==4:
             self.levelodiff=3
             self.conti=1
-        self.screen = pygame.display.set_mode(self.size)
-        pygame.display.set_caption("Pong")
+        if headless:
+            os.putenv("SDL_VIDEODRIVER","fb_con")
+            os.environ["SDL_VIDEODRIVER"] = "dummy"
+            pygame.display.init()
+            self.screen = pygame.display.set_mode(self.size)
+        else:
+            self.screen = pygame.display.set_mode(self.size)
+            pygame.display.set_caption("Pong")
         self.paddleA = Paddle(self.WHITE,10, 100,self.levelodiff)
         self.paddleA.rect.x = 0
         self.paddleA.rect.y = 200
@@ -135,15 +142,17 @@ class Pong:
             if self.pause:
                 continue
 
+            '''
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.carryOn = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_x:
                         self.close()
-
+            '''
 
             inputs=False
+            '''
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
                 self.paddleA.moveUp(5)
@@ -157,7 +166,7 @@ class Pong:
             if keys[pygame.K_DOWN]:
                 self.paddleA.moveDown(5)
                 inputs=True
-
+            '''
 
             ## It can be changed to if after training but not while training
             while self.server and self.conti==0 and not inputs:  ## This while is to be converted to if as the latency is low but for debugging its been set to wait till a input is got
@@ -244,7 +253,7 @@ class Pong:
             self.screen.blit(text, (420,10))
 
 
-            pygame.display.flip()
+            #pygame.display.flip()
 
             if self.debug:
                 if not self.render:
@@ -268,5 +277,5 @@ if __name__=="__main__":
     print("MODERATE --> 2")
     print("HARD     --> 3")
     levelodiff=input()
-    game = Pong(levelodiff,server=True)##,debug=True)
+    game = Pong(levelodiff,server=False,headless=True)##,debug=True)
     game.start()
