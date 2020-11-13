@@ -16,13 +16,13 @@ while t>0:
     img = Image.frombytes('RGB', (sct.width, sct.height), sct.image)
     if flag>0:
         if flag>5:
-            img_buff.append(rgb2bgr(cv2.resize(np.array(img),(800,450))))
+            img_buff.append(rgb2bgr(cv2.resize(np.array(img),(1920, 1080))))
         else:
             flag+=1
     ##cv2.imwrite('/home/hexplex0xff/ass/output'+str(t)+".jpg",rgb2bgr(np.array(img)))
     cv2.imshow('test', rgb2bgr(np.array(img)))
     t+=1
-    k =cv2.waitKey(100)
+    k =cv2.waitKey(2)
     if  k&0xFF == ord('q'):
         cv2.destroyAllWindows()
         break
@@ -36,7 +36,7 @@ while t>0:
         flag = 0
         break
 if vid_flag:
-    out = cv2.VideoWriter('project.avi',cv2.VideoWriter_fourcc(*'DIVX'),10,(800,450))
+    out = cv2.VideoWriter('project.avi',cv2.VideoWriter_fourcc(*'DIVX'),24,(1920, 1080))
     for i in range(len(img_buff)-5):
         out.write(img_buff[i])
     out.release()
