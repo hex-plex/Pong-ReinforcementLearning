@@ -5,6 +5,7 @@ I have used a simple socket connection to transfer data rather than a flask/djan
 both the scripts have debug mode which allows one to see in which state or stage they are in. <br/>
 ## Output
 ![pong-agent](https://github.com/hex-plex/Pong-ReinforcementLearning/raw/master/trained.gif)
+<hr/>
 The one on the left is a RL agent trained for 3 days and the one on right is a hardcoded AI. This is noticible the they nearly have the same level of skills.
 ## Requirements
 This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
@@ -85,8 +86,7 @@ else with a better score of agent, the model is saved continuosly as save.p.
 Nothing for now only further test would say
 ## This is a demo of the pong game
 <img src="/images/pong-game.png"> <br/>
-More to come<br/>
-......<br/>
+This is just the Pong game in action
 ## Fast-training
 I have experimented the whole thing with networking sockets and asynchronous methods limiting the training process to human level speed for which I have uploaded the pong-fast-train.tar.gz
 ``` bash
