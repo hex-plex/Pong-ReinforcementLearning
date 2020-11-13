@@ -7,6 +7,7 @@ both the scripts have debug mode which allows one to see in which state or stage
 ![pong-agent](https://github.com/hex-plex/Pong-ReinforcementLearning/raw/master/trained.gif)
 <hr/>
 The one on the left is a RL agent trained for 3 days and the one on right is a hardcoded AI. This is noticible the they nearly have the same level of skills.
+
 ## Requirements
 This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
 The libraries
