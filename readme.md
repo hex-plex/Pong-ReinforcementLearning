@@ -4,7 +4,8 @@ I have made [pong.py](https://github.com/hex-plex/Pong-ReinforcementLearning/blo
 I have used a simple socket connection to transfer data rather than a flask/django backend as they are based on it giving a advantage of speed of communication. <br/>
 both the scripts have debug mode which allows one to see in which state or stage they are in. <br/>
 ## Output
-![pong-agent](https://github.com)
+![pong-agent](https://github.com/hex-plex/Pong-ReinforcementLearning/raw/master/trained.gif)
+The one on the left is a RL agent trained for 3 days and the one on right is a hardcoded AI. This is noticible the they nearly have the same level of skills.
 ## Requirements
 This requires only few basic libraries it only runs on python3, rather a small update can make it compatible with python2.
 The libraries
